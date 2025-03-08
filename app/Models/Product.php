@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model implements HasMedia
 {
@@ -19,6 +20,13 @@ class Product extends Model implements HasMedia
         'product_category_id',
         'product_color_id',
     ];
+
+    // Relationship to TypeAssignment
+    public function typeAssignments(): HasMany
+    {
+        return $this->hasMany(TypeAssignment::class, 'type_assignment_id')
+            ->where('type_assignments_type', self::class);
+    }
 
     // Relationship to ProductCategory
     public function category()

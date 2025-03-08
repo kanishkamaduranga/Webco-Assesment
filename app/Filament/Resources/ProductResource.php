@@ -12,6 +12,15 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Actions\Action;
+use Filament\Forms\Components\Section;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Actions\CreateAction;
+use App\Models\ProductType;
+use App\Models\TypeAssignment;
+
 
 class ProductResource extends Resource
 {
@@ -83,7 +92,7 @@ class ProductResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\TypeAssignmentsRelationManager::class,
         ];
     }
 
@@ -96,4 +105,5 @@ class ProductResource extends Resource
             'view' => Pages\ViewProduct::route('/{record}/view'),
         ];
     }
+
 }
