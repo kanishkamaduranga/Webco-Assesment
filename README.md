@@ -38,7 +38,7 @@ Follow these steps to set up the project locally:
    ```
 9. Default Admin Credentials:
 
-Email: admin@example.com
+Email: kanishka1000+4@gmail.com
 
-Password: password (or the password you set in the AdminUserSeeder).
+Password: secret123 (or the password you set in the AdminUserSeeder).
 
