@@ -78,17 +78,32 @@ class TypeAssignmentsRelationManager extends RelationManager
             ->actions([
                 Tables\Actions\EditAction::make()
                     ->form([
-                        Forms\Components\Grid::make(2)
-                            ->schema([
-                                Forms\Components\Select::make('type_id')
-                                    ->label('Type')
-                                    ->options(ProductType::all()->pluck('name', 'id'))
-                                    ->required(),
-                                Forms\Components\TextInput::make('my_bonus_field')
-                                    ->label('Bonus Field')
-                                    ->required(),
-                            ]),
-                    ]),
+                        Forms\Components\Grid::make(2) // Split the form into 2 columns
+                        ->schema([
+                            Forms\Components\TextInput::make('type_name') // Custom field for Type Name
+                            ->label('Type Name')
+                                ->required()
+                                ->afterStateHydrated(function ($component, $state, $record) {
+                                    // Populate the field with the existing Type Name
+                                    $component->state($record->productType->name);
+                                }),
+                            Forms\Components\TextInput::make('my_bonus_field')
+                                ->label('Bonus Field')
+                                ->required(),
+                        ]),
+                    ])
+                    ->action(function (array $data, $record) {
+                        // Update the ProductType name
+                        $record->productType->update([
+                            'name' => $data['type_name'],
+                        ]);
+
+                        // Update the TypeAssignment
+                        $record->update([
+                            'my_bonus_field' => $data['my_bonus_field'],
+                        ]);
+                    }),
+
                 Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
